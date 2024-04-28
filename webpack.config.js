@@ -1,19 +1,25 @@
+const fs = require("fs");
 const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
 const packageJson = require("./package.json");
+
+// NorthWestWind's setup: each file is one script, so I create entry for each of them
+const entry = {};
+for (const file of fs.readdirSync("./src/")) {
+  const basename = file.split(".").slice(0, -1);
+  entry[basename] = `./src/${file}`;
+}
 
 module.exports = {
   target: "node",
   mode: "production",
   devtool: false,
-  entry: {
-    main: "./src/main.ts",
-  },
+  entry,
   output: {
     libraryTarget: "commonjs2",
     libraryExport: "default",
     path: path.resolve(__dirname, "./dist"),
-    filename: `${packageJson.scriptOutputName}.js`,
+    filename: `[name].js`,
   },
   resolve: {
     extensions: [".ts", ".js"],

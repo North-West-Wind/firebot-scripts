@@ -55,17 +55,16 @@ const getFirebotScriptsFolderPath = () => {
 const main = async () => {
   const firebotScriptsFolderPath = getFirebotScriptsFolderPath();
 
-  const scriptName = extractScriptName();
-
-  const srcScriptFilePath = path.resolve(`./dist/${scriptName}`);
-  const destScriptFilePath = path.join(
-    firebotScriptsFolderPath,
-    `${scriptName}`
-  );
-
-  await fs.copyFile(srcScriptFilePath, destScriptFilePath);
-
-  console.log(`Successfully copied ${scriptName} to Firebot scripts folder.`);
+  for (const file of await fs.readdir("./dist/")) {
+    if (!file.endsWith(".js")) continue;
+    const srcScriptFilePath = path.resolve(`./dist/${file}`);
+    const destScriptFilePath = path.join(
+      firebotScriptsFolderPath,
+      `${file}`
+    );
+    await fs.copyFile(srcScriptFilePath, destScriptFilePath);
+    console.log(`Successfully copied ${file} to Firebot scripts folder.`);
+  }
 };
 
 main();
