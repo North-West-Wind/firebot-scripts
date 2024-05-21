@@ -24,6 +24,7 @@ const script: Firebot.CustomScript<Params> = {
       },
     };
   },
+  /// @ts-ignore
   run: (runRequest) => {
     // ideally i want to set a custom variable, but it is not supported here
     // so instead, i have 2 effect lists which set and unset the variable "tmp"
@@ -31,9 +32,11 @@ const script: Firebot.CustomScript<Params> = {
       success: true,
       effects: [
         {
-          type: "firebot:run-effect-list",
-          listType: "preset",
-          presetListId: "8e1a9900-0513-11ef-b4f9-f9bd9ba0ce84"
+          type: "firebot:customvariable",
+          active: true,
+          ttl: 1,
+          name: "isLastNonEng",
+          variableData: "1"
         }
       ]
     };
@@ -41,9 +44,11 @@ const script: Firebot.CustomScript<Params> = {
       success: true,
       effects: [
         {
-          type: "firebot:run-effect-list",
-          listType: "preset",
-          presetListId: "a776e840-0513-11ef-b4f9-f9bd9ba0ce84"
+          type: "firebot:customvariable",
+          active: true,
+          ttl: 1,
+          name: "isLastNonEng",
+          variableData: ""
         }
       ]
     };
