@@ -1,6 +1,7 @@
 import { Firebot } from "@crowbartools/firebot-custom-scripts-types";
 
 const MAP = {
+	drinkling: 103,
 	raincoat: 86,
 	underBrella: 82,
 	ghost: 89,
@@ -28,8 +29,8 @@ interface Params {
 const script: Firebot.CustomScript<Params> = {
 	getScriptManifest: () => {
 		return {
-			name: "Summatia Speak",
-			description: "Create a safe POST request for Summatia API.",
+			name: "Integrelle's Closet",
+			description: "Change the look of Integrelle.",
 			author: "NorthWestWind",
 			version: "1.0",
 			firebotVersion: "5",
