@@ -55,17 +55,26 @@ const script: Firebot.CustomScript<Params> = {
 		if (runRequest.parameters.reset) runRequest.parameters.set = Array.from(Object.keys(MAP))[0];
 		else if (!runRequest.parameters.set) runRequest.parameters.set = randomElement(Array.from(Object.keys(MAP)).slice(1));
 		else if (!(MAP as any)[runRequest.parameters.set]) return { success: true, effects: [] };
+		const sources = Array.from(Object.entries(MAP)).map(([key, val]) => ({
+			sceneName: "Switch",
+			sourceId: val,
+			groupName: "Integrelle",
+			action: key == runRequest.parameters.set
+		}));
 		return {
 			success: true,
 			effects: [
 				{
 					type: "ebiggz:obs-toggle-source-visibility",
-					selectedSources: Array.from(Object.entries(MAP)).map(([key, val]) => ({
-						sceneName: "Switch",
-						sourceId: val,
-						groupName: "Integrelle",
-						action: key == runRequest.parameters.set
-					}))
+					selectedSources: sources.filter(x => !x.action)
+				},
+				{
+					type: "firebot:delay",
+					delay: "1"
+				},
+				{
+					type: "ebiggz:obs-toggle-source-visibility",
+					selectedSources: sources.filter(x => x.action)
 				}
 			],
 		};
