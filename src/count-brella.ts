@@ -74,22 +74,22 @@ const script: Firebot.CustomScript<Params> = {
 		let ourBrellas = 0, otherBrellas = 0;
 		const our = JSON.parse(runRequest.parameters.our);
 		our.forEach((member: any) => {
-			if (!member.me || member.weapon.type.key != "brella") return;
+			if (member.me || member.weapon.type.key != "brella") return;
 			ourBrellas++;
-			if (brellas[member.weapon.key]) brellas[member.weapon.key]++;
+			if (brellas[member.weapon.key] !== undefined) brellas[member.weapon.key]++;
 		});
 		const their = JSON.parse(runRequest.parameters.their);
 		their.forEach((member: any) => {
 			if (member.weapon.type.key != "brella") return;
 			otherBrellas++;
-			if (brellas[member.weapon.key]) brellas[member.weapon.key]++;
+			if (brellas[member.weapon.key] !== undefined) brellas[member.weapon.key]++;
 		});
 		if (runRequest.parameters.third) {
 			const third = JSON.parse(runRequest.parameters.third);
 			third.forEach((member: any) => {
 				if (member.weapon.type.key != "brella") return;
 				otherBrellas++;
-				if (brellas[member.weapon.key]) brellas[member.weapon.key]++;
+				if (brellas[member.weapon.key] !== undefined) brellas[member.weapon.key]++;
 			});
 		}
 
