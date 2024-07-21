@@ -1,9 +1,6 @@
 import { Firebot } from "@crowbartools/firebot-custom-scripts-types";
 
 interface Params {
-	our: string;
-  their: string;
-	third: string;
 }
 
 const COUNTER_MAP: { [key: string]: string } = {
@@ -37,26 +34,12 @@ const script: Firebot.CustomScript<Params> = {
   },
   getDefaultParameters: () => {
     return {
-      our: {
-        type: "string",
-        default: "$objectWalkPath[$arrayElement[$effectOutput[splatlog], 0], our_team_members]",
-        description: "Our Team Members",
-      },
-      their: {
-        type: "string",
-        default: "$objectWalkPath[$arrayElement[$effectOutput[splatlog], 0], their_team_members]",
-        description: "Their Team Members",
-      },
-      third: {
-        type: "string",
-        default: "$objectWalkPath[$arrayElement[$effectOutput[splatlog], 0], third_team_members]",
-        description: "Third Team Members",
-      },
     };
   },
 	/// @ts-ignore
   run: (runRequest) => {
-		if (!runRequest.parameters.our || !runRequest.parameters.their) return {
+		const splatlog = runRequest.modules.customVariableManager.getCustomVariable("splatlog");
+		if (!splatlog) return {
 			success: true,
 			effects: []
 		};
@@ -72,20 +55,20 @@ const script: Firebot.CustomScript<Params> = {
 			brella24mk2: 0, // recycled 2
 		}
 		let ourBrellas = 0, otherBrellas = 0;
-		const our = JSON.parse(runRequest.parameters.our);
+		const our = splatlog.our_team_members;
 		our.forEach((member: any) => {
 			if (member.me || member.weapon.type.key != "brella") return;
 			ourBrellas++;
 			if (brellas[member.weapon.key] !== undefined) brellas[member.weapon.key]++;
 		});
-		const their = JSON.parse(runRequest.parameters.their);
+		const their = splatlog.their_team_members;
 		their.forEach((member: any) => {
 			if (member.weapon.type.key != "brella") return;
 			otherBrellas++;
 			if (brellas[member.weapon.key] !== undefined) brellas[member.weapon.key]++;
 		});
-		if (runRequest.parameters.third) {
-			const third = JSON.parse(runRequest.parameters.third);
+		if (splatlog.third_team_members) {
+			const third = splatlog.third_team_members;
 			third.forEach((member: any) => {
 				if (member.weapon.type.key != "brella") return;
 				otherBrellas++;
