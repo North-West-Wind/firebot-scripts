@@ -24,7 +24,6 @@ const script: Firebot.CustomScript<Params> = {
       },
     };
   },
-	/// @ts-ignore
   run: (runRequest) => {
 		if (!runRequest.parameters.path) return {
 			success: true,
@@ -33,17 +32,8 @@ const script: Firebot.CustomScript<Params> = {
 		if (!existsSync(runRequest.parameters.path)) return { success: true, effects: [] };
 		const id = readFileSync(runRequest.parameters.path, { encoding: "utf8" });
 		if (!id) return { success: true, effects: [] };
-		return {
-			success: true,
-			effects: [
-				{
-					type: "firebot:customvariable",
-					ttl: 0,
-					name: "lastBattleId",
-					variableData: id.trim(),
-				},
-			]
-		}
+		runRequest.modules.customVariableManager.addCustomVariable("lastBattleId", id.trim());
+		return { success: true, effects: [] };
   },
 };
 

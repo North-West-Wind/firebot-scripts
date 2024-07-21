@@ -1,7 +1,8 @@
 import { Firebot } from "@crowbartools/firebot-custom-scripts-types";
 
 interface Params {
-	queue: string;
+	queueVar: string;
+	outputVar: string;
 }
 
 const script: Firebot.CustomScript<Params> = {
@@ -16,44 +17,30 @@ const script: Firebot.CustomScript<Params> = {
   },
   getDefaultParameters: () => {
     return {
-			queue: {
+			queueVar: {
 				type: "string",
-				default: "[]",
-				description: "Previous queue"
+				default: "queue",
+				description: "Custom variable name of the queue."
+			},
+			outputVar: {
+				type: "string",
+				default: "dequeue",
+				description: "Custom variable name for the dequeue output."
 			}
     };
   },
-	/// @ts-ignore
   run: (runRequest) => {
-		if (!runRequest.parameters.queue) runRequest.parameters.queue = "[]";
+		if (!runRequest.parameters.queueVar || !runRequest.parameters.outputVar) return { success: true, effects: [] };
 		try {
-			const queue = JSON.parse(runRequest.parameters.queue) as any[];
+			let queue = runRequest.modules.customVariableManager.getCustomVariable(runRequest.parameters.queueVar);
+			if (!Array.isArray(queue)) queue = [];
 			const obj = queue.shift();
-			return {
-				success: true,
-				effects: [
-					{
-						type: "firebot:customvariable",
-						active: true,
-						ttl: 0,
-						name: "queue",
-						variableData: JSON.stringify(queue)
-					},
-					{
-						type: "firebot:customvariable",
-						active: true,
-						ttl: 0,
-						name: "dequeue",
-						variableData: JSON.stringify(obj)
-					}
-				]
-			};
+			runRequest.modules.customVariableManager.addCustomVariable(runRequest.parameters.queueVar, queue);
+			runRequest.modules.customVariableManager.addCustomVariable(runRequest.parameters.outputVar, obj);
 		} catch (err) {
-			return {
-				success: true,
-				effects: []
-			};
+			runRequest.modules.logger.error(err);
 		}
+		return { success: true, effects: [] };
   },
 };
 

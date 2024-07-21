@@ -36,7 +36,6 @@ const script: Firebot.CustomScript<Params> = {
     return {
     };
   },
-	/// @ts-ignore
   run: (runRequest) => {
 		const splatlog = runRequest.modules.customVariableManager.getCustomVariable("splatlog");
 		if (!splatlog) return {

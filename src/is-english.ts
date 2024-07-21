@@ -26,31 +26,13 @@ const script: Firebot.CustomScript<Params> = {
   },
   /// @ts-ignore
   run: (runRequest) => {
-    // ideally i want to set a custom variable, but it is not supported here
-    // so instead, i have 2 effect lists which set and unset the variable "tmp"
-    if (!isEnglish(runRequest.parameters.message)) return {
+    if (!isEnglish(runRequest.parameters.message))
+      runRequest.modules.customVariableManager.addCustomVariable("isLastNonEng", 1, 1);
+    else
+      runRequest.modules.customVariableManager.addCustomVariable("isLastNonEng", "", 1);
+    return {
       success: true,
-      effects: [
-        {
-          type: "firebot:customvariable",
-          active: true,
-          ttl: 1,
-          name: "isLastNonEng",
-          variableData: "1"
-        }
-      ]
-    };
-    else return {
-      success: true,
-      effects: [
-        {
-          type: "firebot:customvariable",
-          active: true,
-          ttl: 1,
-          name: "isLastNonEng",
-          variableData: ""
-        }
-      ]
+      effects: []
     };
   },
 };
