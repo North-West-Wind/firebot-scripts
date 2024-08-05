@@ -1,6 +1,7 @@
 import { Firebot } from "@crowbartools/firebot-custom-scripts-types";
 
 const MAP = {
+	cake: 8,
 	drinkling: 103,
 	raincoat: 86,
 	underBrella: 82,
@@ -61,6 +62,7 @@ const script: Firebot.CustomScript<Params> = {
 			groupName: "Integrelle",
 			action: key == runRequest.parameters.set
 		}));
+		runRequest.modules.customVariableManager.addCustomVariable("currentIntegrelle", runRequest.parameters.set);
 		return {
 			success: true,
 			effects: [
