@@ -50,7 +50,7 @@ const script: Firebot.CustomScript<Params> = {
 		if (!existsSync(runRequest.parameters.path)) return { success: true, effects: [] };
 		const content = readFileSync(runRequest.parameters.path, { encoding: "utf8" });
 		if (!new RegExp(runRequest.parameters.regex, runRequest.parameters.flags).test(content)) return { success: true, effects: [] };
-		runRequest.modules.customVariableManager.addCustomVariable(runRequest.parameters.output, content);
+		runRequest.modules.customVariableManager.addCustomVariable(runRequest.parameters.output, true);
 		return { success: true, effects: [] };
   },
 };
