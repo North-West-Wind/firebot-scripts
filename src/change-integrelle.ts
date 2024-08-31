@@ -1,6 +1,7 @@
 import { Firebot } from "@crowbartools/firebot-custom-scripts-types";
 
 const MAP = {
+	drawing: 9,
 	cake: 8,
 	drinkling: 103,
 	raincoat: 86,
