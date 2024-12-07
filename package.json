@@ -32,6 +32,7 @@
     "google-translate-api-x": "^10.7.1",
     "is-english": "^1.3.0",
     "moment": "^2.30.1",
+    "parse-duration": "^1.1.1",
     "supernormalize": "^1.0.2"
   }
 }
