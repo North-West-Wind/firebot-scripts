@@ -36,6 +36,7 @@ const script: Firebot.CustomScript<{}> = {
 				message: `fatal: there's no one northw35Awk`
 			}]
 		};
+		users.forEach(user => user.minutesInChannel = Math.log(user.minutesInChannel));
 		const all = users.map(user => user.minutesInChannel).reduce((a, b) => a + b);
 		let rng = Math.random() * all;
 		for (const user of users) {
