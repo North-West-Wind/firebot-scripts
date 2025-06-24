@@ -32,7 +32,7 @@ const script: Firebot.CustomScript<{ message: string }> = {
 			message = `${num}°C = ${fahrenheit}°F`;
 		} else {
 			const celsius = Math.round((num - 32) * 100 / 1.8) * 0.01;
-			const kelvin = celsius + 273.15;
+			const kelvin = Math.round((celsius + 273.15) * 100) * 0.01;
 			message = `${num}°F = ${celsius}°C (${kelvin}K${kelvin < 0 ? ", impossible!" : ""})`;
 		}
 		return {
