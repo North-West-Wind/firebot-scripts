@@ -31,13 +31,25 @@ const script: Firebot.CustomScript<Params> = {
 			effects: []
 		};
 
+		const bonk = {
+			type: "firebot:playsound",
+      soundType: "local",
+      volume: 10,
+      audioOutputDevice: {
+          label: "Output: SFX",
+          deviceId: "72884fe6ce9d7a76d059cf77b53963b476a835632df13919b8364471a7659cd6"
+      },
+      filepath: "/home/northwestwind/Music/stream/effects/bonk/bonk.opus",
+      folder: "/home/northwestwind/Music/stream/effects/bonk",
+		};
+
 		// Check for phrases like "cheap viewer" and "best viewer"
 		let norm: string = supernormalize(runRequest.parameters.message);
 		const phrases = ["cheap v1ewer", "best v1ewer"];
 		if (phrases.some(ph => norm.includes(ph)))
 			return { success: true, effects: [{
 				type: "firebot:delete-chat-message"
-			}] };
+			}, bonk] };
 		// Check for format of "host .tld @8lEtTeRs"
 		else if (/@\w{8}$/.test(runRequest.parameters.message)) {
 			// Convert "d0t" to "."
@@ -46,7 +58,7 @@ const script: Firebot.CustomScript<Params> = {
 			if (/(?:http[s]?:\/\/.)?(?:www\.)?[-a-zA-Z0-9@%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)/.test(norm))
 				return { success: true, effects: [{
 					type: "firebot:delete-chat-message"
-				}] };
+				}, bonk] };
 		}
 		return { success: true, effects: [] };
 	},
