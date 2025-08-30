@@ -45,7 +45,7 @@ const script: Firebot.CustomScript<Params> = {
 
 		// Check for phrases like "cheap viewer" and "best viewer"
 		let norm: string = supernormalize(runRequest.parameters.message);
-		const phrases = ["cheap v1ewer", "best v1ewer"];
+		const phrases = ["cheap v1ewer", "best v1ewer", "cheap f0110wers", "best f0110wers"];
 		if (phrases.some(ph => norm.includes(ph)))
 			return { success: true, effects: [{
 				type: "firebot:delete-chat-message"
