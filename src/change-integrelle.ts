@@ -1,6 +1,7 @@
 import { Firebot } from "@crowbartools/firebot-custom-scripts-types";
 
 const MAP = {
+	onigiri: 33,
 	wind: 32,
 	handFan: 30,
 	iceCream: 25,
